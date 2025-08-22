@@ -6,7 +6,7 @@ entries:
     url: winn-resume-copy.pdf
 
   - title: photos
-    url: assets/images
+    url: gallery/photos
 
   - title: blog (mostly music)
     post_list:
