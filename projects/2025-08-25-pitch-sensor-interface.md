@@ -23,11 +23,11 @@ Early tests
 
 2. Development, feature development
 
+To simplify feature development, I added a direct audio upload to the interface, instead of having to go through the ESP32.
+
 One of the most important features was to implement was the graphing of accuracy history, to be able to visualize the performance. Implementing an audio player on top of the graph would allow points of interest to quickly be inspected. 
 
-
-
-(For testing purposes, I added a direct audio upload)
+This turned out to be more difficult than anticipated. Stacking an audio player element on top of the chart.js element did not seem doable to accomplish. I'm sure having experience in Javascript UI development would have helped, but for the time being I went instead with putting a red point on top of the graph that tracks with the separate audio player. This way, the functionality of visualizing the audio player's correlation with accuracy data is maintained. 
 
 3. Recapitulation
 
