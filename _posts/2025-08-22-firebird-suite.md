@@ -21,6 +21,7 @@ Here's an embedded Youtube link:
 Here's a list of complaints:
 
 -3:00: Piano sounds is less effective than othe original celeste
+-10:00: More of a comment on the selection of excerpts and how they're (not) stitched together. I can see the intention behind going from the quiet ending of the *Khorovode* to jumpscaring the audience with the *Infernal Dance*, but it just doesn't quite work for me. The buildup to the *Infernal Dance* in the original ballet is just too good, from the violin + English horn line to the whole orchestra joining to create a sense of disorientation. To cut that part out entirely when it's so short seems wrong. Plus, it's nice for one of the percussionists to be able to show off that excerpt they've practiced so much for auditions.
 -10:38: Piano+flute is weaker than the original piccolo clarinet. And what's with the pauses that stall the momentum?
 
 Now that the original ballet is public domain, I'd be interested to see a version that's maybe slightly scaled down to improve feasability of performance (2 or 1 harps, more standard woodwind section, etc.), but otherwise adheres to the original orchestrations as much as possible. 
