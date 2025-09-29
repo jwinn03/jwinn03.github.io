@@ -31,6 +31,16 @@ One of the most important features was to implement was the graphing of accuracy
 
 This turned out to be more difficult than anticipated. Stacking an audio player element on top of the chart.js element did not seem doable to accomplish. I'm sure having experience in Javascript UI development would have helped, but for the time being I went instead with putting a red point on top of the graph that tracks with the separate audio player. This way, the functionality of visualizing the audio player's correlation with accuracy data is maintained. 
 
+Something also to be considered during implementation of tracking was maintaining the ability to pan and zoom the chart, which is important for particularly long audio tracks. 
+
+Next, was refinement of the chart element. At that moment, a "point" was rendered for every data point of accuracy history, which would lead to absolute chaos when a large audio file was zoomed out.
+
+(add image example)
+
+I next felt that a good feature to add would be highlighting of low accuracy zones. This could be done by highlighting moments of many consecutive low accuracy points.
+
+[add image]
+
 3. Recapitulation
 
 [^1]: Almost all instruments other than guitars and keyboards. Even woodwind players with poor embrochure can have subpar intonation. Except saxophone players, because the saxophone is an easy instrument.
