@@ -25,33 +25,37 @@ Early tests
 
 2. Development, feature development
 
+To detect and log pitches in the audio, a Javascript library called pitchy was used. Short samples of the audio are taken at hundreds of times per second. When a sample has a detectable pitch, its pitch and accuracy are pushed into a stack. This data log is then graphed as discrete points on an accuracy-versus-time graph, implemented using the chart.js library [^3].
+
 To simplify feature development, I added a direct audio upload to the interface, instead of having to go through the ESP32.
 
 One of the most important features was to implement was the graphing of accuracy history, to be able to visualize the performance. Implementing an audio player on top of the graph would allow points of interest to quickly be inspected. 
 
 This turned out to be more difficult than anticipated. Stacking an audio player element on top of the chart.js element did not seem doable to accomplish. I'm sure having experience in Javascript UI development would have helped, but initially I went with a highly jank solution of putting a red dot on top of the graph that tracks with the separate audio player. This way, at least the core functionality of visualizing the audio player's progress with its respective accuracy would be there. 
 
-![](\assets\images\pitch-sensor-interface\Capture4.png)
+![](\assets\images\pitch-sensor-interface\Capture4.PNG)
 
 Here's a few pictures of chart.js Pain from a certified Javascript noob while trying to it to work:
 
-![](\assets\images\pitch-sensor-interface\Capture5.png)
-![](\assets\images\pitch-sensor-interface\Capture7.png)
+![](\assets\images\pitch-sensor-interface\Capture5.PNG)
+![](\assets\images\pitch-sensor-interface\Capture7.PNG)
 
-Eventually, with some help from Anthropic's latest coding model, Claude 4.5 Sonnet, I was able to combine the audio player and accuracy chart into one visual element. 
+Eventually, with some help from Anthropic's latest coding model, Claude 4.5 Sonnet (I tried to limit usage of LLMs for use as a highly specifyable encyclopedia and not for code-writing duties), I was able to combine the audio player and accuracy chart into one visual element. 
 
 Other refinements included:
 -Adding the ability to pan and zoom the chart, which is important for particularly long audio tracks. 
 -Stopping a "point" rendering for every single data point of accuracy history, which would lead to absolute chaos when a large audio file was zoomed out. It worked to just remove the lines between points
 -Adding highlighting of low accuracy zones. This was done by lightly coloring in red regions of many consecutive low accuracy points.
+-Adding highlighting of low clarity zones
+
+Note that for points where pitch *clarity* is 
 
 The audio used during testing was a combination of sine wave tones and actual music. You could probably look at the images and guess which is which.
 
 
 
-[add image]
-
-3. Recapitulation
+3. Recapitulation: Final touches
 
 [^1]: Almost all instruments other than guitars and keyboards. Even woodwind players with poor embrochure can have subpar intonation. Except saxophone players, because the saxophone is an easy instrument.
 [^2]: Search "learn to play \[instrument\] on your phone's app store if you don't know what I mean.
+[^3]: In cases where a pitch is not detected, a data "point" is not rendered on the graph. This naturally leads to areas (mostly) devoid of points where there is silence or other non-tonal noise in the audio, which will lead the user to be able to safely assume to ignore those regions.
