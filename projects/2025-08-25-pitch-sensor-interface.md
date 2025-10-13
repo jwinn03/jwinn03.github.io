@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Pitch sensor + interface
+categories: projects
 ---
 
 *FYI: This page is a work-in-progress.*
