@@ -26,12 +26,15 @@ So, what is "something"? Since I wanted to use Qt, I knew it would be a desktop 
 
 A nice-to-have would be a text box displaying files that will be copied with the current selection, or any other useful software state information.
 
+The development was greatly helped by the relatively straightforward task, as well as the good documentation for Qt written by the Qt group. I built the project using Visual Studio Code/CMake for most code development, and Visual Studio/MSbuild to build the release executable. A couple lessons learned:
 
-A couple lessons:
+- Visual Studio may not be configured by default to show the qDebug() stream, even when using a debug build; it just shows you build information in the bottom pane "output" terminal. I ended up needing to manually configure the project to run the executable on the "console" subsystem, and not the "windows" one. VS Code does show this output by default. 
+- Visual Studio Code wants to use the default Visual Studio configuration of MSVC in the VS folder to compile C++, but for Qt projects, the Qt-provided compiler must be specified. (I believe creating a project using a Qt template in Visual Studio does this configuration automatically)
 
-Visual Studio may not be configured by default to show the qDebug() stream, even when using a debug build; it just shows you build information in the bottom pane "output" terminal. I ended up needing to manually configure the project to run the executable on the "console" subsystem, and not the "windows" one. VS Code does show this output by default. 
+I believed this state was sufficient for a 1.0 release; the basic functionality laid out in the beginning was met, it included an "About" menu, was visually pleasing, and was completely usable in non-technical settings. Future versions will make refinements, possibly including:
 
-Couple more steps to make truly one step:
-
--Default source directory to user's folder
--Default destination directory to an external drive, if any is connected
+- A couple more steps to make truly one step:
+    - Default source directory to the user folder (e.g. where the Desktop, Documents, Music, etc. folders are located in Windows)
+    - Default destination directory to an external drive, if any is connected
+- Other refinements:
+    - Ask the user to approve overwriting existing files in the destination directory with a same name as one in the source, with additional "overwrite all" and "overwrite with new name" options
