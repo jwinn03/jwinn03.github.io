@@ -26,15 +26,17 @@ So, what is "something"? Since I wanted to use Qt, I knew it would be a desktop 
 
 A nice-to-have would be a text box displaying files that will be copied with the current selection, or any other useful software state information.
 
-The development was greatly helped by the relatively straightforward task, as well as the good documentation for Qt written by the Qt group. I built the project using Visual Studio Code/CMake for most code development, and Visual Studio/MSbuild to build the release executable. A couple lessons learned:
+The development was greatly helped by the relatively straightforward task, as well as the good documentation for Qt written by the Qt group. I built the project using Visual Studio Code/CMake for most code development, and Visual Studio/MSbuild to build the release executable. A few lessons learned:
 
 - Visual Studio may not be configured by default to show the qDebug() stream, even when using a debug build; it just shows you build information in the bottom pane "output" terminal. I ended up needing to manually configure the project to run the executable on the "console" subsystem, and not the "windows" one. VS Code does show this output by default. 
 - Visual Studio Code wants to use the default Visual Studio configuration of MSVC in the VS folder to compile C++, but for Qt projects, the Qt-provided compiler must be specified. (I believe creating a project using a Qt template in Visual Studio does this configuration automatically)
+- I came across a strange issue where using MSBuild in the Debug configuration would cause the program to silently crash or not even launch at all depending on the code in the main window constructor. The release config and CMake still worked fine. The debugger revealed a "c0000374" heap corruption error. The issue turned out to be that the Debug configuration defaults to using the "Multi-threaded DLL /MD" runtime library. Changing this to the "Multi-threaded Debug DLL /MDd" runtime library fixes this. Not sure where the heap corruption came from and why it appeared this late into development. 
 
 I believed this state was sufficient for a 1.0 release; the basic functionality laid out in the beginning was met, it included an "About" menu, was visually pleasing, and was completely usable in non-technical settings. Future versions will make refinements, possibly including:
 
 - A couple more steps to make truly one step:
-    - Default source directory to the user folder (e.g. where the Desktop, Documents, Music, etc. folders are located in Windows)
-    - Default destination directory to an external drive, if any is connected
-- Other refinements:
+    - Default source directory to the user folder (e.g. where the Desktop, Documents, Music, etc. folders are located in Windows) [Update: Since doing this looks for all media files in the user folder, potentially tens of thousands of files, the tradeoff becomes decreased startup responsiveness for "one step" operation. Since the user folder may not be the desired source anyways, I decided not to implement this.]
+    - Default destination directory to an external drive, if any is connected [Update: implemented]
+- Other possible refinements:
     - Ask the user to approve overwriting existing files in the destination directory with a same name as one in the source, with additional "overwrite all" and "overwrite with new name" options
+    - Build as a static application; this would make it easier to use for a non-technical user since there would only be one file to deal with, but this would be a difficult task since static builds must be done with Qt's source code, rather than the dynamic libraries that Qt normally provides. 
