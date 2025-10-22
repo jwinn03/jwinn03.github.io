@@ -6,6 +6,8 @@ categories: projects
 
 *FYI: This page is a work-in-progress.*
 
+Repo: https://github.com/jwinn03/practice-dashboard-server 
+
 Musicians who play instruments that don't have built-in pitches[^1] are constantly working on intonation (pitch accuracy). Having good and consistant intonation is one of many important elements in musicianship, alongside tone color, clarity, rhythmic accuracy, dynamic contrast, and many other quantifiable, unquantifiable and semi-quantifiable factors. Pitch accuracy however, is highly quantifiable, at least in theory. Every note is just a frequency, and "correct" frequencies are just multiples of a standard pitch (e.g. A4 = 440hz), specifically multiplying by the 12th root of 2. This led me to the idea of creating a platform for musicians to record takes of themselves practicing and providing feedback in the form of pitch accuracy checking, aimed at musicians who have gone beyond the basics.
 
 While this could be implemented completely locally on a phone app, I decided to record and upload audio to a web server using an INMP441 I2S microphone and an ESP32-S3 development board for the purposes of having an embedded and web development component of the project. 

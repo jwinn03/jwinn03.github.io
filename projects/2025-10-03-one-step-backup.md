@@ -4,6 +4,8 @@ title: One Step Backup
 categories: projects
 ---
 
+Repo: https://github.com/jwinn03/one-step-backup
+
 This was a project the idea for which I came up with while trying to use SharePoint's web browser interface to transfer files from a network shared drive to my local device. Each folder contained thousands of files of data, with three types of files: CSVs, PNGs, and TXTs. I only wanted the PNGs, so I sorted the list by file type, but oh no! Because "PNG" is alphabetically in the middle of the three, I would have to scroll down torwards the middle of the list to select the first file I wanted, then even further down to shift-click the last. This is inconvenient enough, but I couldn't even do that; there were so many files that SharePoint's interface would lag or bug out before I could scroll down far enough to select the first PNG. Searching for "png" didn't help because the SharePoint search bar is an affront to God; I'll type "png" and it'll list a few files with "png" in it, but when I press enter to show all found files, it shows me this:
 
 ![](\assets\images\one-step-backup\Capture.PNG)
