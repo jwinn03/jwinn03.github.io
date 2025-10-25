@@ -6,13 +6,13 @@ categories: projects
 
 *FYI: This page is a work-in-progress.*
 
-Repo: https://github.com/jwinn03/practice-dashboard-server 
+Repo: [https://github.com/jwinn03/practice-dashboard-server] 
 
 Musicians who play instruments that don't have built-in pitches[^1] are constantly working on intonation (pitch accuracy). Having good and consistant intonation is one of many important elements in musicianship, alongside tone color, clarity, rhythmic accuracy, dynamic contrast, and many other quantifiable, unquantifiable and semi-quantifiable factors. Pitch accuracy however, is highly quantifiable, at least in theory. Every note is just a frequency, and "correct" frequencies are just multiples of a standard pitch (e.g. A4 = 440hz), specifically multiplying by the 12th root of 2. This led me to the idea of creating a platform for musicians to record takes of themselves practicing and providing feedback in the form of pitch accuracy checking, aimed at musicians who have gone beyond the basics.
 
 While this could be implemented completely locally on a phone app, I decided to record and upload audio to a web server using an INMP441 I2S microphone and an ESP32-S3 development board for the purposes of having an embedded and web development component of the project. 
 
-1. Exposition, the idea:
+## 1. Exposition, the idea:
 
 Many software services catering to beginning musicians have practicing tools that emphasize pitch accuracy [^2]. They accomplish this by repeatedly comparing what the current pitch should be and what the pitch being played by the player actually is, which is not dissimilar to Guitar Hero. This approach relies on the existence of "charts" that exist on a per-piece/song basis that tell the software the expected pitch at each moment in time. This makes it not useful for people who have escaped beginner's purgatory for a few reasons:
 
@@ -24,7 +24,7 @@ The approach I came up with does not require "charts". Knowing that by this stag
 
 ![](\assets\images\pitch-sensor-interface\Capture1.png)
 
-2. Development, feature development
+## 2. Development, feature development
 
 To detect and log pitches in the audio, a Javascript library called pitchy was used. Short samples of the audio are taken at hundreds of times per second. When a sample has a detectable pitch, its pitch and accuracy are pushed into a stack. This data log is then graphed as discrete points on an accuracy-versus-time graph, implemented using the chart.js library [^3].
 
@@ -66,13 +66,22 @@ In both implementations, running a search took at most a couple thousandths of a
 
 Even if tens of thousands of frequencies are being searched, the compounded difference would only be tens of milliseconds. Far more time is taken performing I/O operations and calling functions from the pitchy library, which uses FFTs to calculate the pitches of samples. If the array of frequencies were extremely large, maybe the difference would be noticeable, but there are only 88 values, reflecting the number of keys on a piano and a more-than sufficient range. 
 
-3. Recapitulation: Final touches
+## 3. Recapitulation: Final touches
+
+Here's a few examples of the tool in action.
+
+- Visualizing violin vibrato (example from Paganini's 24th Caprice, 3rd variation)
+
+![](\assets\images\pitch-sensor-interface\Capture11.PNG)
 
 The approach to pitch detection tends to struggle in these cases:
 - Multiple tones at once, where the pitch detector will struggle to pick up any pitch at all
-- Percussive moments, such as a "dropped" bow technique on a string instrument or rapid note changes on an instrument where there are non-pitched, transitory sounds between notes
+    - This makes it struggle in ensemble settings, though this tool was always meant more for individual practice. Anyone taking time to work on individual technique during ensemble rehearsals is not a serious musician anyways!
+- Percussive moments, such as a "dropped" bow technique on a string instrument, or other transitory non-pitched sounds between notes. This is exasperated when there are rapid note changes, as there is less time for a clear, stable pitch to make itself appearant compared to the unclear ones.
 
 These factors mean that this system works best with woodwind and brass instruments, where these weaknesses are mitigated. 
+
+Because of the assumption that measured pitch will be within ±50 cents (a.k.a. a quartertone) of the intended pitch, if it was not within that window, the accuracy reading alone will not be reliable. In the future, this could be mitigated with an indicator that shows the presumed pitch. If the player sees that it does not match the intended pitch, then they know they were *way* off. However, this would be difficult to implement cleanly (there are ~100 datapoints per second, but we'd only want to show individual "average" assumed notes and therefore would have to somehow decide what the start and end of assumed notes are) and there would be the possibility of false positives that would make the experience confusing.
 
 [^1]: Almost all instruments other than guitars and keyboards. Even woodwind players with poor embrochure can have subpar intonation. Except saxophone players, because the saxophone is an easy instrument.
 [^2]: Search "learn to play \[instrument\] on your phone's app store if you don't know what I mean.
