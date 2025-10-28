@@ -4,16 +4,14 @@ title: Pitch sensor + interface
 categories: projects
 ---
 
-*FYI: This page is a work-in-progress.*
-
-Repo: [https://github.com/jwinn03/practice-dashboard-server] 
+Web server repo: [https://github.com/jwinn03/practice-dashboard-server](https://github.com/jwinn03/practice-dashboard-server)
+ESP32 audio streamer repo: [https://github.com/jwinn03/esp-audio-streamer](https://github.com/jwinn03/esp-audio-streamer)
 
 Musicians who play instruments that don't have built-in pitches[^1] are constantly working on intonation (pitch accuracy). Having good and consistant intonation is one of many important elements in musicianship, alongside tone color, clarity, rhythmic accuracy, dynamic contrast, and many other quantifiable, unquantifiable and semi-quantifiable factors. Pitch accuracy however, is highly quantifiable, at least in theory. Every note is just a frequency, and "correct" frequencies are just multiples of a standard pitch (e.g. A4 = 440hz), specifically multiplying by the 12th root of 2. This led me to the idea of creating a platform for musicians to record takes of themselves practicing and providing feedback in the form of pitch accuracy checking, aimed at musicians who have gone beyond the basics.
 
 While this could be implemented completely locally as a phone or web app, I decided to record and upload audio to a web server hosted in a Docker container using an INMP441 I2S microphone and an ESP32-S3 development board, for the purposes of having an embedded and backend development components in the project. The ESP32 operates as a WebSocket client, sending 16-bit, 16kHz raw binary audio data to the web server; this was the highest audio quality that would work without data dropping out, and is more than enough for this use case. The ESP32 component is simple enough that it could be implemented using the Arduino Core, but I decided to use the ESP-IDF development framework with FreeRTOS since it is allows for more control over scheduling, which is important in this performance-sensitive application, and because it is a more industry-standard way of programming embedded hardware in general. 
 
 ![](\assets\images\pitch-sensor-interface\IMG_3602.jpg)
-*In this particular image, I was playing around with two INMP441 microphones that were oriented different ways*
 
 ## 1. Exposition, the idea:
 
@@ -49,10 +47,11 @@ Eventually, with some help from Anthropic's latest coding model, Claude 4.5 Sonn
 Other refinements included:
 - Adding the ability to pan and zoom the chart, which is important for particularly long audio tracks. 
 - Stopping a "point" rendering for every single data point of accuracy history, which would lead to absolute chaos when a large audio file was zoomed out. It worked to just remove the lines between points
-- Adding highlighting of low accuracy zones. This was done by lightly coloring in red regions of many consecutive low accuracy points.
-- Adding highlighting of low clarity zones
+- Adding highlighting of low clarity zones. This was done by lightly coloring in regions around any low clarity points, which naturally results in large bands of blue when there are many consecutive low clarity points.
 - User-changable options, including changing whether the y-axis is accuracy percentage or error in cents, and the frequency of A4 (440hz by default)
 - In the case of long files, limiting the initial scope to a more visually managable time frame instead of showing every point in the whole file at once
+
+I could have also implemented highlighting of low accuracy zones. However, I chose not to because what is acceptable accuracy-wise depends on context and the player's own practice goals; the graph is plenty of visualization. 
 
 Note that where pitch *clarity* is low, associated points are not rendered. There are occasional points where the pitch detector spuriously finds high clarity and thus renders a pseudo-random point even if there wouldn't be an obvious pitch to a human listener; this is natural given the imperfection of audio recording and digital signal processing.
 
