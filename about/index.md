@@ -3,7 +3,7 @@ layout: page
 title: About
 ---
 
-This is the personal site of Justin Winn, computer engineer and musician. Welcome! If you're seeing this, feel free to send me an email at
+This is the personal site of Justin Winn, computer engineer and musician. Welcome! If you're seeing this and want to ask me about music, microcontrollers, work, or anything else I've written about, feel free to send me an email at
 
 justinwinn003
 (at)

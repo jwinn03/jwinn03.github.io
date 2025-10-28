@@ -10,7 +10,10 @@ Repo: [https://github.com/jwinn03/practice-dashboard-server]
 
 Musicians who play instruments that don't have built-in pitches[^1] are constantly working on intonation (pitch accuracy). Having good and consistant intonation is one of many important elements in musicianship, alongside tone color, clarity, rhythmic accuracy, dynamic contrast, and many other quantifiable, unquantifiable and semi-quantifiable factors. Pitch accuracy however, is highly quantifiable, at least in theory. Every note is just a frequency, and "correct" frequencies are just multiples of a standard pitch (e.g. A4 = 440hz), specifically multiplying by the 12th root of 2. This led me to the idea of creating a platform for musicians to record takes of themselves practicing and providing feedback in the form of pitch accuracy checking, aimed at musicians who have gone beyond the basics.
 
-While this could be implemented completely locally on a phone app, I decided to record and upload audio to a web server using an INMP441 I2S microphone and an ESP32-S3 development board for the purposes of having an embedded and web development component of the project. 
+While this could be implemented completely locally as a phone or web app, I decided to record and upload audio to a web server hosted in a Docker container using an INMP441 I2S microphone and an ESP32-S3 development board, for the purposes of having an embedded and backend development components in the project. The ESP32 operates as a WebSocket client, sending 16-bit, 16kHz raw binary audio data to the web server; this was the highest audio quality that would work without data dropping out, and is more than enough for this use case. The ESP32 component is simple enough that it could be implemented using the Arduino Core, but I decided to use the ESP-IDF development framework with FreeRTOS since it is allows for more control over scheduling, which is important in this performance-sensitive application, and because it is a more industry-standard way of programming embedded hardware in general. 
+
+![](\assets\images\pitch-sensor-interface\IMG_3602.jpg)
+*In this particular image, I was playing around with two INMP441 microphones that were oriented different ways*
 
 ## 1. Exposition, the idea:
 
