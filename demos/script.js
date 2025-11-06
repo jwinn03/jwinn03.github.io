@@ -311,7 +311,7 @@ async function initMicRecording() {
 
             historyLog.innerHTML = 'Processing microphone recording...';
             //statusElement.textContent = 'Processing microphone recording...';
-            const audioBlob = new Blob(chunks, { type: 'audio/wav' });
+            const audioBlob = new Blob(chunks, { type: mediaRecorder.mimeType });
             await processMicRecording(audioBlob);
             micRecordBtn.textContent = 'Record w/ Mic';
             micRecordBtn.disabled = false;
@@ -407,11 +407,11 @@ function downloadLatestRecording() {
         .toISOString()
         .replace(/[:.]/g, '-'); // safe for filenames
 
-    downloadAnchor.href = latestRecordingUrl;
-    downloadAnchor.download = `practice-recording-${timestamp}.wav`;
-    downloadAnchor.click();
+    const extension = latestRecordingBlob.type.split(';')[0].split('/')[1] || 'wav';
 
-    historyLog.innerHTML = 'Recording ready—download started.';
+    downloadAnchor.href = latestRecordingUrl;
+    downloadAnchor.download = `practice-recording-${timestamp}.${extension}`;
+    downloadAnchor.click();
 }
 
 // --- FILE UPLOAD & ANALYSIS ---
