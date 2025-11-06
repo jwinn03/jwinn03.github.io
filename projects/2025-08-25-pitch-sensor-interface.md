@@ -4,12 +4,15 @@ title: Pitch sensor + interface
 categories: projects
 ---
 
-Web server repo: [https://github.com/jwinn03/practice-dashboard-server](https://github.com/jwinn03/practice-dashboard-server)
+Web server repo: [https://github.com/jwinn03/practice-dashboard-server](https://github.com/jwinn03/practice-dashboard-server) 
+
 ESP32 audio streamer repo: [https://github.com/jwinn03/esp-audio-streamer](https://github.com/jwinn03/esp-audio-streamer)
 
-Musicians who play instruments that don't have built-in pitches[^1] are constantly working on intonation (pitch accuracy). Having good and consistant intonation is one of many important elements in musicianship, alongside tone color, clarity, rhythmic accuracy, dynamic contrast, and many other quantifiable, unquantifiable and semi-quantifiable factors. Pitch accuracy however, is highly quantifiable, at least in theory. Every note is just a frequency, and "correct" frequencies are just multiples of a standard pitch (e.g. A4 = 440hz), specifically multiplying by the 12th root of 2. This led me to the idea of creating a platform for musicians to record takes of themselves practicing and providing feedback in the form of pitch accuracy checking, aimed at musicians who have gone beyond the basics.
+Try it [here](/demos/pitch.html)
 
-While this could be implemented completely locally as a phone or web app, I decided to record and upload audio to a web server hosted in a Docker container using an INMP441 I2S microphone and an ESP32-S3 development board, for the purposes of having an embedded and backend development components in the project. The ESP32 operates as a WebSocket client, sending 16-bit, 16kHz raw binary audio data to the web server; this was the highest audio quality that would work without data dropping out, and is more than enough for this use case. The ESP32 component is simple enough that it could be implemented using the Arduino Core, but I decided to use the ESP-IDF development framework with FreeRTOS since it is allows for more control over scheduling, which is important in this performance-sensitive application, and because it is a more industry-standard way of programming embedded hardware in general. 
+Musicians who play instruments that don't have built-in pitches[^1] are constantly working on intonation (pitch accuracy). Having good and consistent intonation is one of many important elements in musicianship, alongside tone color, clarity, rhythmic accuracy, dynamic contrast, and many other quantifiable, unquantifiable and semi-quantifiable factors. Pitch accuracy however, is highly quantifiable, at least in theory. Every note is just a frequency, and "correct" frequencies are just multiples of a standard pitch (e.g. A4 = 440hz), specifically multiplying by the 12th root of 2. This led me to the idea of creating a platform for musicians to record takes of themselves practicing and providing feedback in the form of pitch accuracy checking, aimed at musicians who have gone beyond the basics.
+
+While this could be implemented completely locally as a phone or web app, I decided to record and upload audio to a web server hosted in a Docker container using an INMP441 I2S microphone and an ESP32-S3 development board, for the purposes of having embedded and backend development components in the project. (Later, I added file upload and microphone input to the web interface.) The ESP32 operates as a WebSocket client, sending 16-bit, 16kHz raw binary audio data to the web server; this was the highest audio quality that would work without data dropping out, and is more than enough for this use case. The ESP32 component is simple enough that it could be implemented using the Arduino Core, but I decided to use the ESP-IDF development framework with FreeRTOS since it is allows for more control over scheduling, which is important in this performance-sensitive application, and because it is a more industry-standard way of programming embedded hardware in general. 
 
 ![](\assets\images\pitch-sensor-interface\IMG_3602.jpg)
 
@@ -42,14 +45,15 @@ Here's a few pictures of chart.js Pain from a certified Javascript noob while tr
 ![](\assets\images\pitch-sensor-interface\Capture5.PNG)
 ![](\assets\images\pitch-sensor-interface\Capture7.PNG)
 
-Eventually, with some help from Anthropic's latest coding model, Claude 4.5 Sonnet (I tried to limit usage of LLMs for use as a highly specifyable encyclopedia and not for code-writing duties), I was able to combine the audio player and accuracy chart into one visual element. This was done by having a hidden audio player element, controlled with a custom HTML play/pause button, as well as implementing scrubbing by using chart.js to monitor for clicks on the graph.
+Eventually, with some help from Anthropic's latest coding model, Claude 4.5 Sonnet (I tried to limit usage of LLMs for use as a highly specifiable encyclopedia and not for code-writing duties), I was able to combine the audio player and accuracy chart into one visual element. This was done by having a hidden audio player element, controlled with a custom HTML play/pause button, as well as implementing scrubbing by using chart.js to monitor for clicks on the graph.
 
 Other refinements included:
 - Adding the ability to pan and zoom the chart, which is important for particularly long audio tracks. 
 - Stopping a "point" rendering for every single data point of accuracy history, which would lead to absolute chaos when a large audio file was zoomed out. It worked to just remove the lines between points
 - Adding highlighting of low clarity zones. This was done by lightly coloring in regions around any low clarity points, which naturally results in large bands of blue when there are many consecutive low clarity points.
-- User-changable options, including changing whether the y-axis is accuracy percentage or error in cents, and the frequency of A4 (440hz by default)
-- In the case of long files, limiting the initial scope to a more visually managable time frame instead of showing every point in the whole file at once
+- User-changeable options, including changing whether the y-axis is accuracy percentage or error in cents, and the frequency of A4 (440hz by default)
+- In the case of long files, limiting the initial scope to a more visually manageable time frame instead of showing every point in the whole file at once
+- Implementing direct microphone input from the browser. This took more work than I thought it would.
 
 I could have also implemented highlighting of low accuracy zones. However, I chose not to because what is acceptable accuracy-wise depends on context and the player's own practice goals; the graph is plenty of visualization. 
 
@@ -57,7 +61,7 @@ Note that where pitch *clarity* is low, associated points are not rendered. Ther
 
 The audio used during testing was a combination of sine wave tones and actual music. You could probably look at the images and guess which is which.
 
-One lesson I learned is that sometimes, performance optimizations might be possible, but in practice completely unneccessary. One function, findClosestNote(), is given a measured pitch and finds the in-tune note closest to it. It does this by using an array of frequencies containing each possible frequency of an in-tune note. Since the array is already sorted, a search algorithm can be used, though it should search for the closest value instead of an exact match. Initially, for simplicity, I implemented a linear search. I later went back and changed this to a binary search since this theoretically has O(log n) instead of O(n) performance. I expected this to have a large impact on the time taken for an audio file to be analyzed, since the function is called for every sample, with hundreds of samples being taken per second. However, the difference was actually miniscule, within the margin of run-to-run variance:
+One lesson I learned is that sometimes, performance optimizations might be possible, but in practice completely unnecessary. One function, findClosestNote(), is given a measured pitch and finds the in-tune note closest to it. It does this by using an array of frequencies containing each possible frequency of an in-tune note. Since the array is already sorted, a search algorithm can be used, though it should search for the closest value instead of an exact match. Initially, for simplicity, I implemented a linear search. I later went back and changed this to a binary search since this theoretically has O(log n) instead of O(n) performance. I expected this to have a large impact on the time taken for an audio file to be analyzed, since the function is called for every sample, with hundreds of samples being taken per second. However, the difference was actually miniscule, within the margin of run-to-run variance:
 
 ![](\assets\images\pitch-sensor-interface\Capture8.PNG)
 ![](\assets\images\pitch-sensor-interface\Capture9.PNG)
@@ -79,12 +83,13 @@ Here's a few examples of the tool in action.
 The approach to pitch detection tends to struggle in these cases:
 - Multiple tones at once, where the pitch detector will struggle to pick up any pitch at all
     - This makes it struggle in ensemble settings, though this tool was always meant more for individual practice. Anyone taking time to work on individual technique during ensemble rehearsals is not a serious musician anyways!
-- Percussive moments, such as a "dropped" bow technique on a string instrument, or other transitory non-pitched sounds between notes. This is exasperated when there are rapid note changes, as there is less time for a clear, stable pitch to make itself appearant compared to the unclear ones.
+- Percussive moments, such as a "dropped" bow technique on a string instrument, or other transitory non-pitched sounds between notes. This is exasperated when there are rapid note changes, as there is less time for a clear, stable pitch to make itself apparent compared to the unclear ones.
+- Too much extraneous noise. When testing with recordings from my laptop's internal microphone, the fan noise was too much for the pitch detector to find any clear tones, even though my humming was clearly audible above it.
 
 These factors mean that this system works best with woodwind and brass instruments, where these weaknesses are mitigated. 
 
-Because of the assumption that measured pitch will be within ±50 cents (a.k.a. a quartertone) of the intended pitch, if it was not within that window, the accuracy reading alone will not be reliable. In the future, this could be mitigated with an indicator that shows the presumed pitch. If the player sees that it does not match the intended pitch, then they know they were *way* off. However, this would be difficult to implement cleanly (there are ~100 datapoints per second, but we'd only want to show individual "average" assumed notes and therefore would have to somehow decide what the start and end of assumed notes are) and there would be the possibility of false positives that would make the experience confusing.
+Because of the assumption that measured pitch will be within ±50 cents (a.k.a. a quartertone) of the intended pitch, if it was not within that window, the accuracy reading alone will not be reliable. In the future, this could be mitigated with an indicator that shows the presumed pitch. If the player sees that it does not match the intended pitch, then they know they were *way* off. However, this would be difficult to implement cleanly (there are ~100 data points per second, but we'd only want to show individual "average" assumed notes and therefore would have to somehow decide what the start and end of assumed notes are) and there would be the possibility of false positives that would make the experience confusing.
 
-[^1]: Almost all instruments other than guitars and keyboards. Even woodwind players with poor embrochure can have subpar intonation. Except saxophone players, because the saxophone is an easy instrument.
+[^1]: Almost all instruments other than guitars and keyboards. Even woodwind players with poor embouchure can have subpar intonation. Except saxophone players, because the saxophone is an easy instrument.
 [^2]: Search "learn to play \[instrument\] on your phone's app store if you don't know what I mean.
 [^3]: In cases where a pitch is not detected, a data "point" is not rendered on the graph. This naturally leads to areas (mostly) devoid of points where there is silence or other non-tonal noise in the audio, which will lead the user to be able to safely assume to ignore those regions.

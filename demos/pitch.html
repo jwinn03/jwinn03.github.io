@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intonation Checker</title>
+    <link rel="icon" type="image/png" href="/icon.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7f9; padding: 1em; color: #333; line-height: 1.6; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .full-width-container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 1rem;
+        }
+        h1, h2 { color: #1a202c; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; margin-bottom: 1rem;}
+        #status { font-weight: bold; }
+        button { background-color: #4299e1; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; margin-right: 10px; transition: background-color 0.2s; }
+        button:hover { background-color: #2b6cb0; }
+        button:disabled { background-color: #a0aec0; cursor: not-allowed; }
+        #playPauseBtn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem auto 0;
+            padding: 0;
+            font-size: 24px;
+        }
+        .tuner { margin-top: 2rem; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 8px; }
+        .tuner-display { display: flex; justify-content: space-around; text-align: center; font-size: 1.2em; }
+        .tuner-display div { flex: 1; }
+        .tuner-display span { display: block; font-size: 1.8em; font-weight: bold; }
+        #historyLog { margin-top: 1rem; max-height: 200px; overflow-y: auto; border: 1px solid #e2e8f0; padding: 1rem; border-radius: 8px; font-family: monospace; font-size: 0.9em; }
+        input[type="file"] { margin-top: 10px; }
+        .chart-container { 
+            margin-top: 1rem; 
+            position: relative; 
+            height: auto; 
+            width: 100%;
+        }
+        .chart-container canvas { 
+            height: 300px; 
+        }
+        #audioPlayer {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Intonation Checker</h1>
+        <!-- <p>WebSocket status: <span id="status">Connecting...</span></p> -->
+        
+        <h2>Live Recording</h2>
+        <div>
+            <button id="micRecordBtn">Record w/ Mic</button>
+            <!-- <button id="recordBtn">Record 5s from WebSocket</button> -->
+            <!-- <button id="playBtn" disabled>Play</button> -->
+            <button id="downloadRecordingBtn" disabled>Download Recording</button>
+        </div>
+
+        <h2>Upload Audio File</h2>
+        <input type="file" id="fileInput" accept=".wav,.mp3,.ogg,.aac,.flac,.m4a">
+        <span id="fileNameDisplay" style="margin-left: 10px; font-style: italic; color: #667;"></span>
+        <div id="historyLog">Record with the microphone or upload an audio file to get started</div>
+    </div>
+
+    <div class="full-width-container">
+        <div class="chart-container">
+            <canvas id="accuracyChart"></canvas>
+            <audio id="audioPlayer"></audio>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 1rem;">
+        <button id="playPauseBtn" disabled>▶</button>
+        <h2>Options</h2>
+        <div>
+            <label for="useCentsToggle">Display metric:</label>
+            <select id="useCentsToggle">
+                <option value="cents" selected>Cents</option>
+                <option value="accuracy">Accuracy (%)</option>
+            </select>
+        </div>
+        <div>
+            <label for="standardPitchInput">Standard Pitch (A4):</label>
+            <input type="number" id="standardPitchInput" value="440">
+            <label for="standardPitchInput">Hz</label>
+            <button id="submitPitchBtn">Submit</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Tips and other info</h2>
+        <ul>
+            <li>Record in a quiet environment.</li>
+            <li>Blue regions of the graph indicate stretches of time with low pitch clarity, such as silence or too much extraneous noise.</li>
+            <li>The pitch detection doesn't work well with polyphony (e.g. double stops on a string instrument), so sections with lots of simultaneous notes will appear as low clarity</li>
+            <li>The calculation of accuracy assumes that the measured pitch is within 50 cents (or a quartertone) of the intended pitch. If the measured pitch was more than that amount off, the accuracy reading is unreliable.</li>
+            <li>You can zoom and pan the graph.</li>
+            <li>I wrote more about this project at <a href="/projects/2025-08-25-pitch-sensor-interface">this post</a>, for those interested in the details of its implementation.</li>
+    </div>
+
+    <!-- SCRIPT IS NOW A MODULE TO SUPPORT ESM IMPORT -->
+    <script src="script.js" type="module"></script>
+</body>
+</html>
