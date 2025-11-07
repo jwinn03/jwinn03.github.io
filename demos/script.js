@@ -1,8 +1,8 @@
+// Pitch Sensor Interface Demo, by Justin Winn
 // If you're reading this code:
 // - Hi
-// - Ignore all the commented-out WebSocket stuff, it's just leftover from when I was testing live audio input
+// - Ignore all the commented-out WebSocket stuff, it's just leftover from when I was testing audio recording directly from an ESP32 microcontroller
 // - I write more about the project at https://jwinn03.github.io/projects/2025-08-25-pitch-sensor-interface
-
 
 const debugShowAllNotes = false; // Display all notes including low clarity ones in chart
 
