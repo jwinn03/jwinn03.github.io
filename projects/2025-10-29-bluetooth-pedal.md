@@ -20,6 +20,17 @@ Although I don't have a bluetooth pedal to confirm this, I heavily suspect that 
 
 Yet if you go to a site like Amazon to buy one, you'll notice many of them are shocking expensive for what is essentially just a battery, a couple buttons, and a Bluetooth transmitter. At the time of this project's creation, the cheaper models definitely weren't as cheap as they are now.
 
+![](\assets\images\bluetooth-pedal\Amazon.png)
 
+So, I decided, "how expensive can it actually be to build one of these?" I thought it would be an interesting project to try and replicate a real, actually existing product and see for myself what goes (or doesn't go) into it. 
+
+I started by coming up with what the essential components must be. These included
+
+- A rechargeable Lithium-ion battery and charging circuit
+- A bluetooth module
+    - I went with the cheapest ESP32 dev board I could find, to have programmable I/O and Bluetooth functions
+- An enclosure
+- A foot pedal
+- A board to put all the electronic components together. I went with [these](https://www.adafruit.com/product/571) from Adafruit since I hadn't had good experiences making traces on traditional perf boards previously.
 
 [^1]: Seeing a musician use anything other than Apple products for personal computing is about as rare as 
