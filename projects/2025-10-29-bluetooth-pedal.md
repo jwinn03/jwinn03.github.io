@@ -28,7 +28,7 @@ I started by coming up with what the essential components must be. These include
 
 - A rechargeable Lithium-ion battery and charging circuit
 - A bluetooth module
-    - I went with the cheapest ESP32 dev board I could find, to have programmable I/O and Bluetooth functions
+    - I went with the cheapest ESP32 dev board I could find, to have programmable I/O and Bluetooth functions. A less powerful module more likely to be used in a cheaply-made consumer electronics product such as an nRF52 could have been used instead, but 1. I didn't know that existed when I created this project, and 2. as far as I can tell, the process of using them both are very similar, at least in development board form.
 - An enclosure
 - A foot pedal
 - A board to put all the electronic components together. I went with [these](https://www.adafruit.com/product/571) from Adafruit since I hadn't had good experiences making traces on traditional perf boards previously.
