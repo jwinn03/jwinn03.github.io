@@ -24,7 +24,7 @@ Yet if you go to a site like Amazon to buy one, you'll notice many of them are s
 
 So, I decided, "how expensive can it actually be to build one of these?" I thought it would be an interesting project to try and replicate a real, actually existing product and see for myself what goes (or doesn't go) into it. 
 
-I started by coming up with what the essential components must be. These included
+I started by coming up with what the essential components must be. These included:
 
 - A rechargeable Lithium-ion battery and charging circuit. For the latter, I went with [this](https://www.adafruit.com/product/1944) module from Adafruit, since it handles both charging and boosting the 3.7V voltage from the battery to the 5V needed for the ESP32. 
 - A Bluetooth module
@@ -32,5 +32,9 @@ I started by coming up with what the essential components must be. These include
 - An enclosure
 - A foot pedal
 - A board to put all the electronic components together. I went with [these](https://www.adafruit.com/product/571) from Adafruit since I hadn't had good experiences making traces on traditional perf boards previously. Could've been poor board quality (I remember the pads coming off easily), or it could've been a skill issue. 
+
+The code for the ESP32 isn't very complicated. It takes advantage of a community-made library that neatly wraps BLE keyboard functionality for the ESP32, which significantly reduced the amount of code that I needed to create. Even if that library didn't exist (and it almost didn't work due to a [since-fixed type conversion bug](https://github.com/T-vK/ESP32-BLE-Keyboard/issues/305) that just needed a couple lines changed), it wouldn't have been too complicated; the process of setting up the ESP32's HID descriptor and managing the connection is well documented.
+
+While writing this, I decided to convert the project code from an Arduino sketch file to a PlatformIO project, though it still uses the Arduino core library.
 
 [^1]: Seeing a musician use anything other than Apple products for personal computing is about as a sports broadcast without gambling ads. Speaking of gambling, while you're reading this, I have to make this tangent: it really feels like the gambling-ification not just of sports but of every aspect of society (both literally, in the forms of sites like Kalshi and Polymarket, and with the zeitgeist of "not doing some things because it's risky is a personal failing") is the end stage of a culture that assigns moral worth not to personal moral values or the impact of actions, but by assigning certain arbiters (influencers) to decide for us what is good. And we're not good at choosing those people.
