@@ -16,6 +16,7 @@ For the past while, there's been a mini-revival of analog media. 35mm film, musi
 **REASONS NOT TO**
 
 1. Because other people are into it
+1a. Because you like the aesthetic of other people using it and want to confer that onto yourself
 
 
 [^1] And not out of some kind of consumer sense of duty (e.g. it's on x artist's store, so I should buy it), there's a difference
