@@ -10,7 +10,7 @@ ESP32 audio streamer repo: [https://github.com/jwinn03/esp-audio-streamer](https
 
 ## Try it [here](/demos/pitch.html)
 
-*Before the write-up actually starts, a note for those actually reading this before I publish: don't expect this write-up or the code quality to be the most spectacularly impressive thing. I graduated with my undergraduate degree last spring, and this is the first time I'm doing this kind of public demo + write-up, like something you'd see from the Hacker News forums. I've basically never used Javascript or HTML before this. The idea for this project came a couple months ago, so I wanted to make it exist and share it with others. I don't know if what I've made is all that revolutionary (probably not), though what I do know is that it addresses a problem in a way that I haven't seen anyone else do before.*
+*A note for those actually reading this before I publish: don't expect this write-up or the code quality to be the most spectacularly impressive thing. I've basically never used Javascript or HTML before this. The idea for this project came a couple months ago, so I wanted to make it exist and share it with others.*
 
 Musicians who play instruments that don't have built-in pitches[^1] are constantly working on their intonation (pitch accuracy). Having good and consistent intonation is one of many important elements in musicianship, alongside tone color, clarity, rhythmic accuracy, dynamic contrast, and many other quantifiable, unquantifiable and semi-quantifiable factors. Pitch accuracy however, is highly quantifiable, at least in theory. Every note is just a frequency, and "correct" frequencies are just multiples of a standard pitch (e.g. A4 = 440hz), specifically multiplying by the 12th root of 2. This led me to the idea of creating a platform for musicians to record takes of themselves practicing and providing feedback in the form of pitch accuracy checking, aimed at musicians who have gone beyond the basics.
 
@@ -22,9 +22,9 @@ While this could be implemented completely locally as a phone or web app, I deci
 
 Many software services catering to beginning musicians have practicing tools that emphasize pitch accuracy [^2]. They accomplish this by repeatedly comparing what the current pitch should be and what the pitch being played by the player actually is, which is not dissimilar to Guitar Hero. This approach relies on the existence of "charts" that exist on a per-piece/song basis that tell the software the expected pitch at each moment in time. This makes it not useful for people who have escaped beginner's purgatory for a few reasons:
 
--Rhythmic relations are fixed in place. This means while that a piece as a whole could be sped up or slowed down, there is no freedom in how a particular phrase might be expressively sped up or slowed down (classical musicians call this rubato).
-    -This approach falls apart even further for anything improvisatory, 
--With the vast quantity of musical literature across many instruments, it would be a large task of creating charts for every piece users might want to play. 
+- Rhythmic relations are fixed in place. This means while that a piece as a whole could be sped up or slowed down, there is no freedom in how a particular phrase might be expressively sped up or slowed down (classical musicians call this rubato).
+    - This approach falls apart even further for anything improvisatory, 
+- With the vast quantity of musical literature across many instruments, it would be a large task of creating charts for every piece users might want to play. 
 
 The approach I came up with does not require "charts". Knowing that by this stage in musical development, the pitch being played is usually "mostly" correct, it becomes good enough to infer pitch intention by determining what the closest possible correct note is to the played note.
 
@@ -100,7 +100,7 @@ The approach to pitch detection tends to struggle in these cases:
 - Percussive moments, such as a "dropped" bow technique on a string instrument, or other transitory non-pitched sounds between notes. This is exasperated when there are rapid note changes, as there is less time for a clear, stable pitch to make itself apparent compared to the unclear ones.
 - Too much extraneous noise. When testing with recordings from my laptop's internal microphone, the fan noise was too much for the pitch detector to find any clear tones, even though my humming was clearly audible above it.
 
-These factors mean that this system works best with woodwind and brass instruments, where these weaknesses are mitigated. 
+These factors mean that this system works best with woodwind and brass instruments, where these weaknesses are mitigated. However, I still found it very useful for my own string playing and to see how in-tune my own humming is.
 
 Because of the assumption that measured pitch will be within ±50 cents (a.k.a. a quartertone) of the intended pitch, if it was not within that window, the accuracy reading alone will not be reliable. In the future, this could be mitigated with an indicator that shows the presumed pitch. If the player sees that it does not match the intended pitch, then they know they were *way* off. However, this would be difficult to implement cleanly (there are ~100 data points per second, but we'd only want to show individual "average" assumed notes and therefore would have to somehow decide what the start and end of assumed notes are) and there would be the possibility of false positives that would make the experience confusing.
 
