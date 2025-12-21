@@ -11,4 +11,6 @@ First, writing music is just inherently difficult. All art is difficult when you
 
 Second, people aren't listening to great music that often, and what they do listen to is the auditory equivalent of Marvel movies or Star Wars, where the people who made those may have been inspired by numerous artistic influences from across time and cultures, but those influences don't really shine to people who don't look for them. There isn't really a name for this phenomenon as far as I know, but it's everywhere in the arts. This is also why it seems like a lot of people people are easily impressed by mediocre art, given the right context.
 
+I should mention of course, that the greats of the past have been selected out of hundreds of years of music history, and that the past had its more-than fair share of mediocre performers. I know that. But even those mediocre performances of the past could articulate what makes Beethoven so musically satisfying. 
+
 [^1]: Actual cooking, at least to me, is the creativity and culinary knowledge required to make something that suits a particular moment from instinct, and not just the physical act of assembling food as I think popular culture (food TV, Youtube, TikTok, etc.) has led us to believe.
