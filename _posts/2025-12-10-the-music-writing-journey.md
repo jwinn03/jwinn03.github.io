@@ -14,3 +14,8 @@ Second, people aren't listening to great music that often, and what they do list
 I should mention of course, that the greats of the past have been selected out of hundreds of years of music history, and that the past had its more-than fair share of mediocre performers. I know that. But even those mediocre performances of the past could articulate what makes Beethoven so musically satisfying. 
 
 [^1]: Actual cooking, at least to me, is the creativity and culinary knowledge required to make something that suits a particular moment from instinct, and not just the physical act of assembling food as I think popular culture (food TV, Youtube, TikTok, etc.) has led us to believe.
+
+
+I recently graduated with my bachelor's in computer engineering from Virginia Tech, (see my resume, attached if you're curious!) but with the recent downturn in the engineering job market I've turned my focus towards my other passion: music. I play the cello and piano, and of interest to 
+
+The negative connotation of modern music (and modern art in general) comes from the fact that it . They exist to explore the absolute limits of what it is or what it can be; occasionally, something audiences love comes out of it (see: Philip Glass and the minimalists) but that wasn't the point. In that sense, it has more in common with modern mathematics research than it does the typical conception of music, such as beauty, consumability, or usefulness. (It shouldn't be so surprising then that modern math and modern music exist mostly in academic circles)
