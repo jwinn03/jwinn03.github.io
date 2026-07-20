@@ -5,6 +5,7 @@ title: Photos
 
 Photos I have taken.
 
-- [New York 2025](/gallery/2025-08-22-new-york)
-- [Czechia 2025](/gallery/2025-08-23-czechia)
-- [Vienna 2025](/gallery/2025-08-24-vienna)
+{% assign galleries = site.pages | where_exp: "p", "p.url contains '/gallery/'" | where: "layout", "post" | sort: "date" | reverse %}
+{%- for gallery in galleries %}
+- [{{ gallery.title }}]({{ gallery.url | relative_url }})
+{%- endfor %}

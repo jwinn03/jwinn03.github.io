@@ -1,7 +1,7 @@
 ---
 layout: post
-date: 2025-08-24
-title: Vienna
+date: 2026-07-19
+title: California 2026
 ---
 
 With some more pictures of New York taken this year.
