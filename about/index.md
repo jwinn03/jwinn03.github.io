@@ -8,3 +8,5 @@ This is the personal site of Justin Winn, computer engineer and musician. Welcom
 justinwinn003
 (at)
 gmail dot com
+
+or on Linkedin: [bleugh](https://www.linkedin.com/in/justin-winn-246465233/)
